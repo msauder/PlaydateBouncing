@@ -1,3 +1,3 @@
 # PlaydateBouncing
 A simple visualization of exploding bouncing balls using the PlaydateSDK
-![playdate-20220802-092613](https://user-images.githubusercontent.com/4155060/184932918-d0cb77a7-c172-4dc0-bc78-a369c33e7360.gif)
+![playdate-20220816-103405](https://user-images.githubusercontent.com/4155060/184933108-301d0c1f-1fde-48e7-adfa-145b18ebd74a.gif)
