@@ -23,17 +23,24 @@ particles = {}
 
 --particle functions
 local function drawParticle(p)
-  gfx.setPattern(p.clr)
-  gfx.fillCircleAtPoint(p.x, p.y, p.r)
+  if p.r < 5 then
+	gfx.setPattern(p.clr)
+    gfx.fillCircleAtPoint(p.x, p.y, p.r)
+	return
+  end
+  for i=1, #palette - 1, 1 do
+    gfx.setPattern(palette[#palette - i+1])
+    gfx.fillCircleAtPoint(p.x + i, p.y - i, p.r - (i-1)*2)
+  end
 end
 
-local function createParticle(x, y)
+local function createParticle(x, y, r)
   local a = math.random()*2*math.pi
   table.insert(particles, {
     id = pd.string.UUID(8),
     x = x,
     y = y,
-    r = math.random(10)/4 + 2,
+    r = math.random(math.floor(r))/3 + 1,
     vx = (math.random(10)+10)*math.cos(a),
     vy = (math.random(10)+10)*math.sin(a),
     clr = palette[math.random(3)+2]
@@ -48,7 +55,7 @@ local function updateParticle(p, index)
   p.x += p.vx
   p.y += p.vy
 
-  if p.x - p.r < 0 or p.x + p.r > width then
+  if p.x + p.r < 0 or p.x - p.r > width then
     table.remove(particles, index)
     return
   end
@@ -97,7 +104,7 @@ local function updateBall(b, index)
   b.t -= dt
   if b.t < 0 then
     for i=1, math.floor(b.r)*2, 1 do
-      createParticle(b.x, b.y)
+      createParticle(b.x, b.y, b.r)
     end
     addShake(6)
     table.remove(balls, index)
